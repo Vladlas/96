@@ -1,6 +1,5 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteBase /
 
   # Если запрашиваемый файл/папка существует — отдаём как есть
   RewriteCond %{REQUEST_FILENAME} -f [OR]

@@ -24,11 +24,13 @@ function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [notes, setNotes] = useState<Note[]>(notesData);
   const [calendarEvents, setCalendarEvents] = useState<CalendarEvent[]>(hallCalendar);
+  const [apiStatus, setApiStatus] = useState<'ready' | 'fallback'>('ready');
 
   useEffect(() => {
     const bootstrap = async () => {
       try {
         const [dbNotes, dbEvents] = await Promise.all([loadNotes(), loadEvents()]);
+        setApiStatus('ready');
         if (dbNotes.length > 0) {
           setNotes(dbNotes);
         }
@@ -36,7 +38,7 @@ function App() {
           setCalendarEvents(dbEvents);
         }
       } catch {
-        // fallback to seeded data
+        setApiStatus('fallback');
       }
     };
 
@@ -127,6 +129,13 @@ function App() {
             <p className="mt-1">Раздел дополнен символикой и фотографиями, предоставленными для наполнения виртуального музея.</p>
           </div>
         </header>
+
+
+        {apiStatus === 'fallback' ? (
+          <div className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
+            API недоступен: админка работает в локальном режиме браузера до восстановления PHP/SQLite.
+          </div>
+        ) : null}
 
         <nav className="flex flex-wrap gap-2">
           {halls.map((hall) => (

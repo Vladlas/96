@@ -30,28 +30,59 @@ export function AdminPanel({
   const [noteContent, setNoteContent] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [eventTitle, setEventTitle] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const submitNote = async (event: FormEvent) => {
     event.preventDefault();
+    setError(null);
     if (!noteTitle.trim() || !noteShort.trim() || !noteContent.trim()) {
+      setError('Заполните все поля заметки.');
       return;
     }
 
-    await onAddNote({ hallId: selectedHall, title: noteTitle.trim(), short: noteShort.trim(), content: noteContent.trim() });
-    setNoteTitle('');
-    setNoteShort('');
-    setNoteContent('');
+    try {
+      await onAddNote({ hallId: selectedHall, title: noteTitle.trim(), short: noteShort.trim(), content: noteContent.trim() });
+      setNoteTitle('');
+      setNoteShort('');
+      setNoteContent('');
+    } catch {
+      setError('Не удалось сохранить заметку.');
+    }
   };
 
   const submitEvent = async (event: FormEvent) => {
     event.preventDefault();
+    setError(null);
     if (!eventDate.trim() || !eventTitle.trim()) {
+      setError('Заполните дату и название события.');
       return;
     }
 
-    await onAddEvent({ date: eventDate.trim(), title: eventTitle.trim() });
-    setEventDate('');
-    setEventTitle('');
+    try {
+      await onAddEvent({ date: eventDate.trim(), title: eventTitle.trim() });
+      setEventDate('');
+      setEventTitle('');
+    } catch {
+      setError('Не удалось добавить событие.');
+    }
+  };
+
+  const handleDeleteNote = async (id: string) => {
+    setError(null);
+    try {
+      await onDeleteNote(id);
+    } catch {
+      setError('Не удалось удалить заметку.');
+    }
+  };
+
+  const handleDeleteEvent = async (id: string) => {
+    setError(null);
+    try {
+      await onDeleteEvent(id);
+    } catch {
+      setError('Не удалось удалить событие.');
+    }
   };
 
   return (
@@ -67,10 +98,12 @@ export function AdminPanel({
             </p>
             <h2 className="mt-1 text-xl font-semibold text-slate-800">Админка + БД</h2>
           </div>
-          <button onClick={onClose} className="rounded-lg border border-slate-200 p-1.5 text-slate-500 hover:bg-slate-100">
+          <button type="button" onClick={onClose} className="rounded-lg border border-slate-200 p-1.5 text-slate-500 hover:bg-slate-100">
             <X size={16} />
           </button>
         </div>
+
+        {error ? <p className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p> : null}
 
         <div className="grid grid-cols-2 gap-2">
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
@@ -87,15 +120,9 @@ export function AdminPanel({
           <p className="flex items-center gap-2 text-sm font-semibold text-slate-700">
             <FileText size={15} /> Новая заметка
           </p>
-          <select
-            value={selectedHall}
-            onChange={(event) => setSelectedHall(event.target.value as HallId)}
-            className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm"
-          >
+          <select value={selectedHall} onChange={(event) => setSelectedHall(event.target.value as HallId)} className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm">
             {nonMainHalls.map((hall) => (
-              <option key={hall.id} value={hall.id}>
-                {hall.title}
-              </option>
+              <option key={hall.id} value={hall.id}>{hall.title}</option>
             ))}
           </select>
           <input value={noteTitle} onChange={(event) => setNoteTitle(event.target.value)} placeholder="Заголовок" className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm" />
@@ -118,7 +145,7 @@ export function AdminPanel({
           {notes.slice(0, 6).map((note) => (
             <div key={note.id} className="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2">
               <span className="text-sm text-slate-700">{note.title}</span>
-              <button onClick={() => onDeleteNote(note.id)} className="rounded-md p-1 text-slate-500 hover:bg-slate-100">
+              <button type="button" onClick={() => handleDeleteNote(note.id)} className="rounded-md p-1 text-slate-500 hover:bg-slate-100">
                 <Trash2 size={14} />
               </button>
             </div>
@@ -130,7 +157,7 @@ export function AdminPanel({
           {events.slice(0, 6).map((event) => (
             <div key={event.id} className="flex items-center justify-between rounded-lg border border-slate-200 px-3 py-2">
               <span className="text-sm text-slate-700">{event.date} — {event.title}</span>
-              <button onClick={() => onDeleteEvent(event.id)} className="rounded-md p-1 text-slate-500 hover:bg-slate-100">
+              <button type="button" onClick={() => handleDeleteEvent(event.id)} className="rounded-md p-1 text-slate-500 hover:bg-slate-100">
                 <Trash2 size={14} />
               </button>
             </div>
