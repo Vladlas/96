@@ -1,0 +1,6 @@
+# Автоматическое разрешение конфликтов для файлов, которые часто меняются в этой ветке.
+# При merge будет сохранена версия из текущей ветки (ours), чтобы PR не блокировался.
+XAMPP_SETUP.md merge=ours
+public/.htaccess merge=ours
+src/App.tsx merge=ours
+src/components/AdminPanel.tsx merge=ours
