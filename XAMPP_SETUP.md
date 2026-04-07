@@ -80,3 +80,21 @@ npm run build:xampp
    - Проверьте, что включены `pdo_sqlite` и `sqlite3`.
 3. **Нет записи в БД**
    - Проверьте права на `C:\xampp\htdocs\museum96\data\`.
+
+
+## 9) Если в PR конфликт с `main`
+
+Выполните локально:
+
+```bash
+git fetch origin
+git merge origin/main
+# или: git rebase origin/main
+```
+
+Затем вручную исправьте конфликтные файлы и завершите:
+
+```bash
+git add .
+git commit
+```

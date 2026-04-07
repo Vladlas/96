@@ -1,9 +1,10 @@
 import { CalendarEvent, Note } from './types';
 
-const NOTES_API = './api/notes.php';
-const EVENTS_API = './api/events.php';
+const appBase = new URL('./', window.location.href);
+const notesUrl = new URL('api/notes.php', appBase);
+const eventsUrl = new URL('api/events.php', appBase);
 
-async function requestJson<T>(input: RequestInfo, init?: RequestInit): Promise<T> {
+async function requestJson<T>(input: RequestInfo | URL, init?: RequestInit): Promise<T> {
   const response = await fetch(input, init);
   if (!response.ok) {
     throw new Error(`API error ${response.status}`);
@@ -12,15 +13,15 @@ async function requestJson<T>(input: RequestInfo, init?: RequestInit): Promise<T
 }
 
 export async function loadNotes(): Promise<Note[]> {
-  return requestJson<Note[]>(NOTES_API);
+  return requestJson<Note[]>(notesUrl);
 }
 
 export async function loadEvents(): Promise<CalendarEvent[]> {
-  return requestJson<CalendarEvent[]>(EVENTS_API);
+  return requestJson<CalendarEvent[]>(eventsUrl);
 }
 
 export async function createNote(payload: Omit<Note, 'id'>): Promise<Note> {
-  return requestJson<Note>(NOTES_API, {
+  return requestJson<Note>(notesUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
@@ -28,7 +29,7 @@ export async function createNote(payload: Omit<Note, 'id'>): Promise<Note> {
 }
 
 export async function createEvent(payload: Omit<CalendarEvent, 'id'>): Promise<CalendarEvent> {
-  return requestJson<CalendarEvent>(EVENTS_API, {
+  return requestJson<CalendarEvent>(eventsUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
@@ -36,13 +37,13 @@ export async function createEvent(payload: Omit<CalendarEvent, 'id'>): Promise<C
 }
 
 export async function removeNote(id: string): Promise<void> {
-  await requestJson<{ ok: true }>(`${NOTES_API}?id=${encodeURIComponent(id)}`, {
-    method: 'DELETE'
-  });
+  const url = new URL(notesUrl);
+  url.searchParams.set('id', id);
+  await requestJson<{ ok: true }>(url, { method: 'DELETE' });
 }
 
 export async function removeEvent(id: string): Promise<void> {
-  await requestJson<{ ok: true }>(`${EVENTS_API}?id=${encodeURIComponent(id)}`, {
-    method: 'DELETE'
-  });
+  const url = new URL(eventsUrl);
+  url.searchParams.set('id', id);
+  await requestJson<{ ok: true }>(url, { method: 'DELETE' });
 }
