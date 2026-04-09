@@ -1,30 +1,31 @@
-# Виртуальный музей кафедры 96 (PHP + XAMPP)
+# Виртуальный музей 96 кафедры (PHP + MySQL + XAMPP)
 
-Проект переписан на PHP и сделан **многостраничным** с вкладками (tab-навигацией), чтобы запускаться в XAMPP без Node.js и сборки.
+Проект — это многостраничная мини-CMS на чистом PHP без Laravel/Symfony и без frontend-сборки.
 
-## Быстрый старт
+## Что внутри
 
-1. Скопируйте проект в `C:\xampp\htdocs\museum96\`.
-2. Запустите **Apache** в XAMPP.
-3. Откройте `http://localhost/museum96/`.
+- Публичный сайт: `index.php` + `page.php` + шаблоны `pages/*`.
+- Админка: `admin/*` (login/logout, dashboard, CRUD по сущностям).
+- База данных MySQL: `sql/database.sql` + `sql/demo_data.sql`.
+- Конфиги: `config/config.php`, `config/database.php` (PDO).
+- Общие функции: `includes/functions.php`, `includes/auth.php`.
 
-## Страницы (вкладки)
+## Быстрый запуск в XAMPP
 
-- `index.php` — главная витрина + календарь.
-- `hall.php?hall=history|science|people` — отдельные страницы залов.
-- `gallery.php` — фотолетопись и символика.
-- `routes.php` — кураторские маршруты и ближайшие события.
-- `notes.php` — все заметки с фильтром по залам.
-- `admin.php` — админ-панель добавления заметок и событий.
+1. Скопируйте папку в `C:\xampp\htdocs\museum96\`.
+2. Запустите Apache + MySQL.
+3. В phpMyAdmin создайте БД `museum96` (utf8mb4).
+4. Импортируйте:
+   - `sql/database.sql`
+   - `sql/demo_data.sql`
+5. Откройте сайт: `http://localhost/museum96/`.
+6. Админка: `http://localhost/museum96/admin/login.php`.
 
-## Что сохранено
+## Тестовый доступ
 
-- Исходный контент музея (залы, маршруты, заметки, календарь, галереи).
-- Fallback для отсутствующих изображений.
-- Админские добавления в `$_SESSION` (в пределах сессии браузера).
+- login: `admin`
+- password: `admin123`
 
-## Файлы ядра
+## Примечание
 
-- `bootstrap.php` — общая инициализация, сессии, обработка форм, шаблон шапки/навигации.
-- `data.php` — данные экспозиции.
-- `styles.css` — стили в духе исходного дизайна (карточки, стекло, табы, градиенты).
+Для подробной пошаговой инструкции см. `README.txt` и `XAMPP_SETUP.md`.
