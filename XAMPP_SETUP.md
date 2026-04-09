@@ -1,58 +1,49 @@
-# Запуск проекта в XAMPP (Apache)
+# Запуск проекта в XAMPP (Apache + PHP)
 
-Ниже — рабочая схема для Windows + XAMPP.
+Проект работает как чистый PHP-сайт (многостраничный, без Node.js/npm/Vite/SQLite API).
 
-## 1) Сборка фронтенда
+## 1) Копирование в XAMPP
 
-В корне проекта:
-
-```bash
-npm install
-npm run build:xampp
-```
-
-После этого появится папка `dist/`.
-
-## 2) Копирование в XAMPP
-
-Скопируйте содержимое `dist/` в папку:
+Скопируйте проект в:
 
 - `C:\xampp\htdocs\museum96\`
 
-Итоговая структура должна содержать:
+Проверьте, что на месте:
 
-- `C:\xampp\htdocs\museum96\index.html`
-- `C:\xampp\htdocs\museum96\assets\...`
-- `C:\xampp\htdocs\museum96\.htaccess`
-- `C:\xampp\htdocs\museum96\media\...` (ваши изображения)
+- страницы: `index.php`, `hall.php`, `gallery.php`, `routes.php`, `notes.php`, `admin.php`
+- ядро: `bootstrap.php`, `data.php`, `styles.css`
+- медиа: `media\...`
 
-## 3) Добавьте изображения
+## 2) Добавьте изображения
 
 Положите медиа-файлы в:
 
 - `C:\xampp\htdocs\museum96\media\`
 
-Список нужных имён — в `public/media/README.md`.
+Список имён — `public/media/README.md`.
 
-## 4) Включите Apache в XAMPP
+## 3) Запустите Apache
 
-Запустите XAMPP Control Panel и включите **Apache**.
+В XAMPP Control Panel включите **Apache**.
 
-## 5) Откройте сайт
+## 4) Откройте сайт
 
-Откройте в браузере:
+- Главная: `http://localhost/museum96/`
+- Галерея: `http://localhost/museum96/gallery.php`
+- Админ: `http://localhost/museum96/admin.php`
 
-- `http://localhost/museum96/`
+## 5) Важно
 
-## 6) Важно для SPA-маршрутов
+Добавленные в админке заметки/события хранятся в `$_SESSION`:
 
-Файл `public/.htaccess` уже добавлен в проект и автоматически попадает в сборку. Он нужен, чтобы прямые переходы по вложенным URL не давали 404.
+- сохраняются только в рамках текущей сессии браузера;
+- исчезают после очистки cookies/сессии.
 
-## 7) Частые проблемы
+## 6) Частые проблемы
 
-1. **404 на assets**
-   - Убедитесь, что собираете через `npm run build:xampp`.
-2. **Не подгружаются изображения**
-   - Проверьте имена файлов и путь `media/...`.
-3. **Apache игнорирует .htaccess**
-   - В `httpd.conf` должен быть включён `AllowOverride All` для `htdocs`.
+1. **Открывается список файлов вместо сайта**
+   - Проверьте, что входная точка `index.php` существует в `museum96`.
+2. **Apache не запускается**
+   - Проверьте занятость порта `80`.
+3. **Нет изображений**
+   - Проверьте путь `media/...` и имена файлов.

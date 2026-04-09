@@ -1,12 +1,11 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
-  RewriteBase /
 
   # Если запрашиваемый файл/папка существует — отдаём как есть
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  # Иначе отдаём index.html (SPA fallback)
-  RewriteRule . index.html [L]
+  # Для многостраничного PHP-сайта отдаём index.php только для корня
+  RewriteRule ^$ index.php [L]
 </IfModule>
