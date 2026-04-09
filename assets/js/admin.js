@@ -1,0 +1,2 @@
+document.addEventListener('change',(e)=>{if(e.target.matches('input[type="file"]')){const file=e.target.files?.[0];const preview=document.querySelector('[data-preview="'+e.target.name+'"]');if(file&&preview&&file.type.startsWith('image/')){const r=new FileReader();r.onload=()=>preview.src=r.result;r.readAsDataURL(file);}}});
+document.addEventListener('submit',(e)=>{if(e.target.matches('[data-delete-form]')){if(!confirm('Удалить запись?'))e.preventDefault();}});

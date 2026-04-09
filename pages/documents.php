@@ -1,0 +1,1 @@
+<?php $rows=getRecords('documents',20); ?><section class="card"><h2>Документы</h2><div class="list-card"><?php foreach($rows as $r): ?><article class="entity"><strong><?= e($r['title']) ?></strong><p class="muted"><?= e($r['category']) ?> · <?= e($r['year']) ?></p></article><?php endforeach; ?></div></section>

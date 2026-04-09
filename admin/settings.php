@@ -1,0 +1,1 @@
+<?php include __DIR__ . '/includes/admin_header.php'; require_once __DIR__ . '/includes/crud_page.php'; renderCrudPage(['title'=>'Настройки','table'=>'settings','fields'=>['setting_key'=>['label'=>'Ключ'],'setting_value'=>['label'=>'Значение','type'=>'textarea']]]); include __DIR__ . '/includes/admin_footer.php';

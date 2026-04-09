@@ -1,0 +1,1 @@
+<?php $rows=getRecords('publications',20); ?><section class="card"><h2>Наука и разработки</h2><div class="list-card"><?php foreach($rows as $r): ?><article class="entity"><strong><?= e($r['title']) ?> (<?= e($r['year']) ?>)</strong><p class="muted"><?= e($r['authors']) ?></p></article><?php endforeach; ?></div></section>

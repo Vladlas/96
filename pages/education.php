@@ -1,0 +1,1 @@
+<?php $c=getPageContent('education'); ?><section class="card"><h2><?= e($c['main']['title'] ?? 'Учебный процесс') ?></h2><p><?= nl2br(e($c['main']['content'] ?? 'Описание образовательной деятельности кафедры.')) ?></p></section>

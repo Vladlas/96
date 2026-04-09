@@ -1,0 +1,1 @@
+<?php $rows=getRecords('certificates',20); ?><section class="card"><h2>Свидетельства ПО</h2><div class="list-card"><?php foreach($rows as $r): ?><article class="entity"><strong><?= e($r['title']) ?></strong><p class="muted">№<?= e($r['cert_number']) ?> от <?= e($r['cert_date']) ?></p></article><?php endforeach; ?></div></section>

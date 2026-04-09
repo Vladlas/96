@@ -1,0 +1,1 @@
+<?php $rows=getRecords('achievements',20); ?><section class="card"><h2>Достижения</h2><div class="list-card"><?php foreach($rows as $r): ?><article class="entity"><strong><?= e($r['year']) ?> — <?= e($r['title']) ?></strong><p class="muted"><?= e($r['description']) ?></p></article><?php endforeach; ?></div></section>

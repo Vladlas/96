@@ -1,0 +1,1 @@
+<?php $c=getPageContent('history'); ?><section class="card"><h2><?= e($c['main']['title'] ?? 'История кафедры') ?></h2><p><?= nl2br(e($c['main']['content'] ?? 'История развития кафедры и ключевые этапы.')) ?></p></section>

@@ -1,0 +1,1 @@
+<?php $rows=getGallery(30); ?><section class="card"><h2>Галерея</h2><div class="gallery-grid"><?php foreach($rows as $r): ?><article class="tile"><img src="<?= e($r['image_path']) ?>" alt="<?= e($r['title']) ?>"><div><strong><?= e($r['title']) ?></strong><p class="muted small"><?= e($r['album']) ?></p></div></article><?php endforeach; ?></div></section>

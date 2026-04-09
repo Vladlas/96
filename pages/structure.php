@@ -1,0 +1,1 @@
+<?php $h=getHalls(); ?><section class="card"><h2>Структура и залы</h2><div class="list-card"><?php foreach($h as $row): ?><article class="entity"><strong><?= e($row['title']) ?></strong><p class="muted"><?= e($row['short_description']) ?></p></article><?php endforeach; ?></div></section>

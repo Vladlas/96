@@ -1,0 +1,1 @@
+<?php $c=getPageContent('about'); ?><section class="card"><h2><?= e($c['main']['title'] ?? 'О кафедре') ?></h2><p><?= nl2br(e($c['main']['content'] ?? 'Кафедра 96 — центр научных и образовательных инициатив.')) ?></p></section>

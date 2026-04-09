@@ -1,38 +1,41 @@
 <?php
-require __DIR__ . '/bootstrap.php';
-
-$mainSection = $museumContent[0];
-
-pageHeader('Кафедральная экспозиция и летопись', 'home');
+$activePage = 'home';
+$pageTitle = 'Главный холл';
+require __DIR__ . '/includes/header.php';
+$halls = getHalls();
+$events = getActiveEvents(4);
+$gallery = getGallery(4);
 ?>
-
-<section class="split">
-    <article class="panel">
-        <p class="chipline">Центральная витрина</p>
-        <h2><?= e($mainSection['heading']) ?></h2>
-        <p class="muted"><?= e($mainSection['description']) ?></p>
-        <div class="pill-grid">
-            <?php foreach ($mainSection['items'] as $item): ?>
-                <span class="pill"><?= e($item) ?></span>
+<section class="grid two">
+    <article class="card hero-block">
+        <p class="caption">Витрина экспозиции</p>
+        <h2><?= e(getSetting('showcase_title', 'Центральная экспозиция кафедры')) ?></h2>
+        <p class="muted"><?= e(getSetting('showcase_description', 'История, достижения и современные разработки кафедры в едином цифровом пространстве.')) ?></p>
+        <div class="chips">
+            <?php foreach ($halls as $hall): ?>
+                <a class="chip" href="page.php?p=<?= e($hall['slug']) ?>"><?= e($hall['title']) ?></a>
             <?php endforeach; ?>
         </div>
-        <div class="actions">
-            <a class="btn" href="hall.php?hall=history">Начать экскурсию</a>
-            <a class="btn ghost" href="gallery.php">Открыть фотолетопись</a>
-        </div>
     </article>
-
-    <aside class="panel">
-        <h2>Календарь кафедры</h2>
-        <?php foreach (array_slice($calendarEvents, 0, 3) as $event): ?>
+    <aside class="card">
+        <h3>Календарь кафедры</h3>
+        <?php foreach ($events as $event): ?>
             <div class="event">
-                <small><?= e($event['date']) ?></small>
-                <p><?= e($event['title']) ?></p>
+                <strong><?= e($event['title']) ?></strong>
+                <p class="muted small"><?= e($event['date_start']) ?> · <?= e($event['event_type']) ?></p>
             </div>
         <?php endforeach; ?>
     </aside>
 </section>
-
-<?php renderGalleryBlock('Кафедральная символика', 'Эмблемы кафедры и связанные знаки из предоставленного набора материалов', $departmentHeraldry, true); ?>
-
-<?php pageFooter(); ?>
+<section class="card">
+    <h3>Экспонаты дня</h3>
+    <div class="gallery-grid">
+        <?php foreach ($gallery as $item): ?>
+            <article class="tile">
+                <img src="<?= e($item['image_path']) ?>" alt="<?= e($item['title']) ?>">
+                <div><strong><?= e($item['title']) ?></strong><p class="muted small"><?= e($item['album']) ?></p></div>
+            </article>
+        <?php endforeach; ?>
+    </div>
+</section>
+<?php require __DIR__ . '/includes/footer.php'; ?>
